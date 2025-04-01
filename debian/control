@@ -1,0 +1,9 @@
+Package: screen-translator
+Version: 1.0
+Section: utils
+Priority: optional
+Architecture: all
+Depends: python3 (>=3.6), python3-tk, python3-pillow, scrot, tesseract-ocr, tesseract-ocr-chi-sim, python3-pip
+Maintainer: Cline <support@example.com>
+Description: Screen translation tool
+ Real-time translation of screen captures with OCR and Google Translate integration

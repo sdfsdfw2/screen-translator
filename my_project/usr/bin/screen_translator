@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /usr/share/my_project
+source .venv/bin/activate
+python3 screen_translator.py "$@"

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=截图翻译
+Comment=A tool to translate screenshots
+Exec=/usr/bin/screen_translator
+Icon=/usr/share/icons/screen-translator-icon.png
+Terminal=false
+Type=Application
+Categories=Utility;Application;

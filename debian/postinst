@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+# 创建虚拟环境（确保系统已安装 python3-venv）
+python3 -m venv /opt/screen-translator-venv
+
+# 安装Python依赖（注意顺序和必要依赖）
+/opt/screen-translator-venv/bin/pip install --no-cache-dir pytz
+/opt/screen-translator-venv/bin/pip install googletrans==4.0.0-rc1
+/opt/screen-translator-venv/bin/pip install pytesseract
+
+# 验证安装（非必须但有助于调试）
+/opt/screen-translator-venv/bin/python -c "import googletrans; print(googletrans.__version__)"
