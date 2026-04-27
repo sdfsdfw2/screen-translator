@@ -1,0 +1,28 @@
+# Wails build directory
+build/bin/
+build/obj/
+frontend/node_modules/
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Build outputs
+*.deb
+*.rpm
+*.dmg
+*.exe
+jietu_*_amd64/
+
+# Temporary files
+/tmp/
+*.log
+
+# Python leftovers
+.venv/
+__pycache__/
+*.pyc
+
+# IDEs
+.idea/
+.vscode/

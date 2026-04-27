@@ -1,0 +1,13 @@
+{
+  "$schema": "https://wails.io/schemas/wails.json",
+  "name": "jietu",
+  "outputfilename": "jietu",
+  "frontend:install": "",
+  "frontend:build": "",
+  "frontend:dev:watcher": "",
+  "frontend:dev:serverUrl": "",
+  "author": {
+    "name": "Developer",
+    "email": "developer@example.com"
+  }
+}
