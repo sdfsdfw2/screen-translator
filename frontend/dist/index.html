@@ -289,6 +289,29 @@
 
     let clickTimer = null;
 
+    let savedPosX = 0;
+    let savedPosY = 0;
+    let isPositionSaved = false;
+
+    async function savePosition() {
+        if (floatingView.style.display !== 'none') {
+            try {
+                const pos = await window.runtime.WindowGetPosition();
+                savedPosX = pos.x;
+                savedPosY = pos.y;
+                isPositionSaved = true;
+            } catch(e) {
+                console.error(e);
+            }
+        }
+    }
+
+    async function restorePosition() {
+        if (isPositionSaved) {
+            await window.runtime.WindowSetPosition(savedPosX, savedPosY);
+        }
+    }
+
     function handleFloatingClick() {
         if (clickTimer === null) {
             clickTimer = setTimeout(() => {
@@ -334,6 +357,7 @@
 
     async function showContextMenu(event) {
         event.preventDefault();
+        await savePosition();
         hideAll();
         contextMenu.style.display = 'flex';
         await window.runtime.WindowSetSize(150, 160);
@@ -343,6 +367,7 @@
         hideAll();
         floatingView.style.display = 'flex';
         await window.runtime.WindowSetSize(60, 60);
+        await restorePosition();
     }
 
     function toggleConfig() {
@@ -352,6 +377,7 @@
     }
 
     async function openSettings() {
+        await savePosition();
         hideAll();
         settingsView.style.display = 'flex';
         document.getElementById('translator-service').value = currentTranslator;
@@ -391,9 +417,11 @@
         hideAll();
         floatingView.style.display = 'flex';
         await window.runtime.WindowSetSize(60, 60);
+        await restorePosition();
     }
 
     async function openTextTranslator() {
+        await savePosition();
         hideAll();
         
         // 设置 UI 为文本输入模式
@@ -439,17 +467,15 @@
         floatingView.classList.add('processing');
 
         try {
-            await window.runtime.WindowHide();
+            await savePosition();
             const imagePath = await window.go.backend.App.CaptureSelection();
             if (!imagePath) {
-                await window.runtime.WindowShow();
                 floatingView.classList.remove('processing');
                 return;
             }
 
             const text = await window.go.backend.App.RecognizeText(imagePath, currentOcrLang);
             if (!text) {
-                await window.runtime.WindowShow();
                 floatingView.classList.remove('processing');
                 return; 
             }
@@ -497,6 +523,7 @@
         hideAll();
         floatingView.style.display = 'flex';
         await window.runtime.WindowSetSize(60, 60);
+        await restorePosition();
     }
 </script>
 </body>
