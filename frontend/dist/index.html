@@ -435,7 +435,7 @@
 
         resultView.style.display = 'flex';
         await window.runtime.WindowSetSize(580, 380);
-        await window.runtime.WindowCenter();
+        await restorePosition();  // 保持在原位，不移到屏幕中央
         await window.runtime.WindowShow();
         
         originalText.focus();
@@ -500,7 +500,7 @@
             hideAll();
             resultView.style.display = 'flex';
             await window.runtime.WindowSetSize(580, 380);
-            await window.runtime.WindowCenter();
+            await restorePosition();  // 保持在原位，不移到屏幕中央
             await window.runtime.WindowShow();
 
         } catch (err) {
@@ -512,7 +512,7 @@
             hideAll();
             resultView.style.display = 'flex';
             await window.runtime.WindowSetSize(580, 380);
-            await window.runtime.WindowCenter();
+            await restorePosition();  // 保持在原位，不移到屏幕中央
             await window.runtime.WindowShow();
         } finally {
             floatingView.classList.remove('processing');
