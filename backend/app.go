@@ -202,13 +202,19 @@ func (a *App) TranslateText(text string, srcLang string, targetLang string, serv
 
 	if len(result) > 0 {
 		innerList, ok := result[0].([]interface{})
-		if ok && len(innerList) > 0 {
-			firstItem, ok := innerList[0].([]interface{})
-			if ok && len(firstItem) > 0 {
-				translatedText, ok := firstItem[0].(string)
-				if ok {
-					return translatedText, nil
+		if ok {
+			var fullTranslation string
+			for _, item := range innerList {
+				lineItem, ok := item.([]interface{})
+				if ok && len(lineItem) > 0 {
+					translatedLine, ok := lineItem[0].(string)
+					if ok {
+						fullTranslation += translatedLine
+					}
 				}
+			}
+			if fullTranslation != "" {
+				return fullTranslation, nil
 			}
 		}
 	}

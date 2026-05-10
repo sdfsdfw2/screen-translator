@@ -100,6 +100,7 @@
             width: 55%; padding: 8px 12px; border: 1px solid var(--border-color); 
             border-radius: 10px; font-size: 14px; background: #FFFFFF;
             outline: none; transition: all 0.2s; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02);
+            --wails-draggable: no-drag;
         }
         .setting-row select:focus, .setting-row input:focus { 
             border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); 
@@ -134,6 +135,7 @@
         .text-box textarea { 
             flex-grow: 1; resize: none; padding: 0; font-family: inherit; font-size: 15px; line-height: 1.6;
             border: none; background: transparent; color: var(--text-main); outline: none;
+            --wails-draggable: no-drag;
         }
 
         /* --------------------------
@@ -142,6 +144,7 @@
         .btn {
             padding: 8px 16px; cursor: pointer; border: none; border-radius: 10px; font-size: 14px; font-weight: 500;
             transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+            --wails-draggable: no-drag;
         }
         .btn-primary { 
             background: linear-gradient(135deg, var(--primary), var(--primary-hover)); 
@@ -360,12 +363,16 @@
         await savePosition();
         hideAll();
         contextMenu.style.display = 'flex';
+        await window.runtime.WindowSetMaxSize(150, 160);
+        await window.runtime.WindowSetMinSize(150, 160);
         await window.runtime.WindowSetSize(150, 160);
     }
 
     async function closeContextMenu() {
         hideAll();
         floatingView.style.display = 'flex';
+        await window.runtime.WindowSetMaxSize(60, 60);
+        await window.runtime.WindowSetMinSize(60, 60);
         await window.runtime.WindowSetSize(60, 60);
         await restorePosition();
     }
@@ -390,7 +397,9 @@
         
         toggleConfig();
 
-        await window.runtime.WindowSetSize(400, 540);
+        await window.runtime.WindowSetMaxSize(0, 0);
+        await window.runtime.WindowSetMinSize(600, 600);
+        await window.runtime.WindowSetSize(600, 810);
         await window.runtime.WindowCenter();
     }
 
@@ -416,6 +425,8 @@
         
         hideAll();
         floatingView.style.display = 'flex';
+        await window.runtime.WindowSetMaxSize(60, 60);
+        await window.runtime.WindowSetMinSize(60, 60);
         await window.runtime.WindowSetSize(60, 60);
         await restorePosition();
     }
@@ -434,7 +445,9 @@
         document.getElementById('btn-translate-text').style.display = 'inline-flex';
 
         resultView.style.display = 'flex';
-        await window.runtime.WindowSetSize(580, 380);
+        await window.runtime.WindowSetMaxSize(0, 0);
+        await window.runtime.WindowSetMinSize(600, 450);
+        await window.runtime.WindowSetSize(870, 570);
         await restorePosition();  // 保持在原位，不移到屏幕中央
         await window.runtime.WindowShow();
         
@@ -499,7 +512,9 @@
             
             hideAll();
             resultView.style.display = 'flex';
-            await window.runtime.WindowSetSize(580, 380);
+            await window.runtime.WindowSetMaxSize(0, 0);
+            await window.runtime.WindowSetMinSize(600, 450);
+            await window.runtime.WindowSetSize(870, 570);
             await restorePosition();  // 保持在原位，不移到屏幕中央
             await window.runtime.WindowShow();
 
@@ -511,7 +526,9 @@
             
             hideAll();
             resultView.style.display = 'flex';
-            await window.runtime.WindowSetSize(580, 380);
+            await window.runtime.WindowSetMaxSize(0, 0);
+            await window.runtime.WindowSetMinSize(600, 450);
+            await window.runtime.WindowSetSize(870, 570);
             await restorePosition();  // 保持在原位，不移到屏幕中央
             await window.runtime.WindowShow();
         } finally {
@@ -522,6 +539,8 @@
     async function closeResultView() {
         hideAll();
         floatingView.style.display = 'flex';
+        await window.runtime.WindowSetMaxSize(60, 60);
+        await window.runtime.WindowSetMinSize(60, 60);
         await window.runtime.WindowSetSize(60, 60);
         await restorePosition();
     }
