@@ -123,12 +123,16 @@ func (a *App) TranslateWithOpenAI(text, srcLang, targetLang, apiKey, endpoint, m
 	}
 
 	req.Header.Set("Content-Type", "application/json")
+	// OpenRouter 强烈建议带上这两个 Header，否则有概率被 Cloudflare 拦截返回 500
+	req.Header.Set("HTTP-Referer", "https://github.com/yourusername/jietu")
+	req.Header.Set("X-Title", "Jietu OCR")
+
 	if apiKey != "" {
 		req.Header.Set("Authorization", "Bearer "+apiKey)
 	}
 
 	client := &http.Client{
-		Timeout: 15 * time.Second,
+		Timeout: 60 * time.Second,
 	}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -145,9 +149,17 @@ func (a *App) TranslateWithOpenAI(text, srcLang, targetLang, apiKey, endpoint, m
 		return "", fmt.Errorf("AI 服务报错 (状态码 %d): %s", resp.StatusCode, string(body))
 	}
 
+	// 某些第三方代理（如某些 HF Space 部署的 API）存在 Bug
+	// 会在非流式请求的 JSON 末尾错误地追加 "data: [DONE]"，导致解析失败
+	if len(body) > 0 {
+		// 清理末尾可能包含的异常字符
+		body = bytes.ReplaceAll(body, []byte("data: [DONE]"), []byte(""))
+	}
+	bodyStr := string(body)
+
 	var res map[string]interface{}
 	if err := json.Unmarshal(body, &res); err != nil {
-		return "", fmt.Errorf("解析 AI JSON 失败: %v", err)
+		return "", fmt.Errorf("解析 AI JSON 失败: %v\n返回内容: %s", err, bodyStr)
 	}
 
 	if choices, ok := res["choices"].([]interface{}); ok && len(choices) > 0 {
